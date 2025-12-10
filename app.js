@@ -56,7 +56,7 @@
   }
 
   //MOOD + CRISIS DETECTION
-  const crisisWords = [
+  const crisisWords = [ // words/phrases indicating crisis
   "suicide",
   "kill myself",
   "end my life",
@@ -73,7 +73,7 @@
 ];
 
 
-  function detectMood(text) {
+  function detectMood(text) {// basic keyword-based mood detection
     if (!text) return "neutral";
     const t = text.toLowerCase();
 
@@ -84,16 +84,16 @@
     const angry = ["angry", "annoyed", "frustrated", "pissed", "irritated", "mad"];
     const happy = ["happy", "good", "great", "ok", "fine", "better"];
 
-    if (sad.some(w => t.includes(w))) return "sad";
+    if (sad.some(w => t.includes(w))) return "sad";// if the text include the words in the array it will be displaued
     if (anx.some(w => t.includes(w))) return "anxious";
     if (angry.some(w => t.includes(w))) return "angry";
     if (happy.some(w => t.includes(w))) return "happy";
 
-    return "neutral";
+    return "neutral";// default to neutral if no keywords matched
   }
 
   
-  const ReplyBlocks = {
+  const ReplyBlocks = {// predefined reply blocks for different moods
     crisis: {
       empathy: [
         "Thank you for telling me this. Im really glad you chose to say it out loud instead of keeping it all inside.",
@@ -228,7 +228,7 @@
     }
   };
 
-  function buildCounsellingReply(mood, userText, history, channel) {
+  function buildCounsellingReply(mood, userText, history, channel) {// build a counselling reply based on mood, user text, chat history, and channel (chat or call)
     const block = ReplyBlocks[mood] || ReplyBlocks.neutral;
     const parts = [];
     parts.push(pick(block.empathy));
@@ -243,11 +243,11 @@
 
     if (lastUserMessages && /school|exam|assignment|test|teacher/.test(lastUserMessages)) { // detect school-related issues
       parts.push("It also sounds like school or studies have been weighing on you quite a bit.");
-    } else if (lastUserMessages && /friend|friends|relationship|boyfriend|girlfriend|family|parent/.test(lastUserMessages)) {
+    } else if (lastUserMessages && /friend|friends|relationship|boyfriend|girlfriend|family|parent/.test(lastUserMessages)) {// detect relationship issue
       parts.push("I’m noticing that relationships keep coming up for you, which is totally understandable—they affect us a lot.");
     }
 
-    parts.push(pick(block.gentleQuestion));
+    parts.push(pick(block.gentleQuestion));// add a gentle question
 
     if (mood === "crisis") {
       parts.push(
@@ -562,7 +562,7 @@
     });
   }
 
-  //Tools
+  
 
   // Breathing circle + whispers
   if (qs("#start-breath")) {

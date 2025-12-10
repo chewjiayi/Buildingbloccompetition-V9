@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <style>
-    /* ========= GLOBAL ========= */
+  
     * {
       margin: 0;
       padding: 0;
@@ -27,7 +27,7 @@
       margin: 0 auto;
     }
 
-    /* ========= NAVBAR ========= */
+  
     .navbar {
       background: rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(12px);
@@ -73,7 +73,7 @@
       color: #d14cff !important;
     }
 
-    /* ========= CARD ========= */
+  
     .card {
       background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(12px);
@@ -113,7 +113,6 @@
       margin-top: 6px;
     }
 
-    /* ========= LOGOUT BUTTON ========= */
     .logout-btn {
       margin-top: 20px;
       padding: 12px 28px;
@@ -145,7 +144,7 @@
 <body>
   <div class="page" id="profile-root">
 
-    <!-- ========= NAVBAR ========= -->
+    <!--Navbar -->
     <header class="navbar">
       <div class="logo">
         <div class="logo-dot"></div>
@@ -163,7 +162,7 @@
       </nav>
     </header>
 
-    <!-- ========= PROFILE CARD ========= -->
+    <!--Profile-->
     <section class="card" id="profile-card">
       <h2 class="section-title">Your Profile</h2>
       <p class="section-subtitle">A snapshot of your account stored on this device.</p>
@@ -187,7 +186,7 @@
   </div>
 
   <script>
-    /* ========= CHECK LOGIN ========= */
+   // Authenticate login
     const user = JSON.parse(localStorage.getItem("cmn_current_user"));
 
     if (!user) {
@@ -231,7 +230,7 @@
       `;
     }
 
-    /* ========= LOGOUT BUTTON ========= */
+    // log out button
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", () => {
