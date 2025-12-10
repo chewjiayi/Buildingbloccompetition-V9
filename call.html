@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI Voice Call – Yournotalone</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-call">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="page">
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a class="active-link" href="ai.html">AI Assistant</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crisis.html">Crisis</a>
+      </nav>
+    </header>
+
+    <section class="card call-card">
+      <h2>AI Voice Call (Demo)</h2>
+      <p class="muted">
+        Press and hold anywhere in the call box to speak. Release to let the AI respond out loud.
+      </p>
+
+      <div class="call-box">
+        <div class="v-bars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div id="call-timer" class="timer">00:00</div>
+        <button id="end-call" class="btn outline" type="button">End Call</button>
+      </div>
+    </section>
+
+    <footer>If you feel unsafe, please contact real emergency services in your area.</footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

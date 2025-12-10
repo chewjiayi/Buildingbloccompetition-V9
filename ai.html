@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI Assistant – CounselMeNow</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-ai">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="page">
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a class="active-link" href="ai.html">AI Assistant</a>
+        <a href="human.html">Counsellor</a>
+        <a href="tools.html">Tools</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crisis.html">Crisis</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2 class="section-title">AI Mood Assistant</h2>
+      <p class="section-subtitle">
+        A gentle space to say what is on your mind. The assistant can speak back and track mood trends on your dashboard.
+      </p>
+
+      <div id="chat-area" class="chat card-chat" aria-live="polite">
+        <div class="bot-msg">
+          Hi 💜 I am here with you. How are you feeling right now?
+        </div>
+      </div>
+
+      <form id="chat-form" class="chat-form" onsubmit="return false;">
+        <input id="chat-input" type="text" placeholder="Type your feelings here..." autocomplete="off">
+        <button class="btn primary" id="send-btn" type="button">Send</button>
+      </form>
+
+      <button id="voice-btn" class="btn outline">Hold to talk</button>
+
+      <p class="muted" style="margin-top:8px;">
+        This is a demo. It cannot see or hear you beyond this tab, and it does not contact real emergency services.
+      </p>
+
+      <div style="margin-top:10px;">
+        <a href="call.html" class="btn outline">Try voice call mode</a>
+      </div>
+    </section>
+
+    <footer>AI is a bridge, not a replacement for real help.</footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

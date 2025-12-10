@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CounselMeNow – Gentle Mental Health Companion</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #ffe5f4, #e5d4ff, #f3e1ff);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #463366;
+}
+
+.blob {
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.blob1 { top: -100px; left: -100px; background: #ffc9e7; }
+.blob2 { bottom: -140px; right: -140px; background: #d7b7ff; }
+
+/* --------------------------------------------------------------
+   PAGE WRAPPER
+-------------------------------------------------------------- */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 18px 60px;
+}
+
+/* --------------------------------------------------------------
+   NAVBAR
+-------------------------------------------------------------- */
+.navbar {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  padding: 14px 20px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 45px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #55348a;
+}
+
+.logo-dot {
+  width: 12px;
+  height: 12px;
+  background: #ff7fbf;
+  border-radius: 50%;
+}
+
+.navbar nav a {
+  margin-left: 22px;
+  color: #5a478d;
+  text-decoration: none;
+  font-size: 15px;
+  transition: .2s ease;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.navbar nav a:hover,
+.navbar nav .active-link {
+  background: #f6e6ff;
+  color: #7b3ce0;
+}
+
+/* --------------------------------------------------------------
+   HERO CARD
+-------------------------------------------------------------- */
+.hero-card {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 28px;
+  padding: 50px 40px;
+  margin-top: 25px;
+  box-shadow: 0 20px 40px rgba(120, 73, 230, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.hero-label {
+  color: #8c6ac9;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+}
+
+.hero-title {
+  font-size: 38px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #33225e;
+  margin-bottom: 14px;
+}
+
+.hero-desc {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #5b4d77;
+  max-width: 620px;
+}
+
+.hero-buttons {
+  margin-top: 22px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: .2s ease;
+}
+
+.btn.primary {
+  background: #ff7abf;
+  color: white;
+  font-weight: 600;
+}
+
+.btn.primary:hover { background: #ff62b4; }
+
+.btn.outline {
+  border: 2px solid #b68aff;
+  color: #8a4ae0;
+  font-weight: 600;
+}
+
+.btn.outline:hover { background: #f4e8ff; }
+
+.hero-small {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #7e6aa8;
+}
+
+/* --------------------------------------------------------------
+   FEATURE TITLE SECTION
+-------------------------------------------------------------- */
+.features-title {
+  margin-top: 70px;
+  margin-bottom: 30px;
+}
+
+.features-title h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #33225e;
+  margin-bottom: 8px;
+}
+
+.features-title p {
+  color: #6a5d85;
+  font-size: 16px;
+}
+
+
+.features-grid {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+.feature-card {
+  background: rgba(255,255,255,0.55);
+  padding: 24px;
+  border-radius: 22px;
+  box-shadow: 0 14px 30px rgba(130,90,230,0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.45);
+  transition: .25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px rgba(130,90,230,0.14);
+}
+
+.feature-card .icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.feature-card h3 {
+  color: #402c75;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #6e5f93;
+  line-height: 1.55;
+}
+
+
+footer {
+  text-align: center;
+  margin-top: 90px;
+  margin-bottom: 40px;
+  color: #7e6aa8;
+  font-size: 15px;
+}
+
+</style>
+</head>
+
+<body>
+
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+
+  <div class="page">
+
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+
+      <nav>
+        <a class="active-link" href="index.html">Home</a>
+        <a href="ai.html">AI Assistant</a>
+        <a href="human.html">Counsellor</a>
+        <a href="tools.html">Tools</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crisis.html">Crisis</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </header>
+
+    <!-- ---------------- HERO SECTION ---------------- -->
+    <section class="hero-card">
+      <div class="hero-label">A gentle space online</div>
+
+      <h1 class="hero-title">
+        Mindfulness & counselling<br>
+        for those who quietly need a safe place to breathe
+      </h1>
+
+      <p class="hero-desc">
+        Talk to an AI companion anytime, or connect to a real counsellor when you're ready —
+        all in one safe, judgment-free space.
+      </p>
+
+      <div class="hero-buttons">
+        <a class="btn primary" href="ai.html">Try AI Mood Assistant</a>
+        <a class="btn outline" href="human.html">Book a Counsellor</a>
+      </div>
+
+      <p class="hero-small">24/7 support · Designed for students & overthinkers</p>
+    </section>
+
+    <!-- ---------------- FEATURE SECTION ---------------- -->
+    <section class="features-title">
+      <h2>If a website could save the world…</h2>
+      <p>It would save minds first. These features quietly prevent crises.</p>
+    </section>
+
+    <section class="features-grid">
+      <div class="feature-card">
+        <div class="icon">🤖</div>
+        <h3>AI Mood Assistant</h3>
+        <p>A gentle 24/7 listener that helps you name emotions and feel less alone at 2am.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">👥</div>
+        <h3>Human Counsellor Booking</h3>
+        <p>Private online sessions with real counsellors when you’re ready to talk.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🚨</div>
+        <h3>Crisis Support</h3>
+        <p>Emergency hotlines and clear crisis guidance for moments of severe distress.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🧘</div>
+        <h3>Daily Mental Health Tools</h3>
+        <p>Breathing, grounding, journaling — small rituals to reset your day.</p>
+      </div>
+       <div class="feature-card">
+    <div class="icon">📊</div>
+    <h3>Personalised Dashboard</h3>
+    <p>A private snapshot of your moods, tools used, and your next counselling session.</p>
+  </div>
+    </section>
+
+    <footer>Progress is still progress, even if only you can see it. 💫</footer>
+
+  </div>
+
+</body>
+</html>

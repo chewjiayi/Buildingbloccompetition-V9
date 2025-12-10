@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard – Yournotalone</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="page" id="dashboard-root">
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="ai.html">AI Assistant</a>
+        <a href="human.html">Counsellor</a>
+        <a href="coping.html">Tools</a>
+        <a class="active-link" href="dashboard.html">Dashboard</a>
+        <a href="crisis.html">Crisis</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <h2 class="section-title">Your Dashboard</h2>
+      <p class="section-subtitle">
+        Quick view of your moods, tools used, upcoming bookings, and the tiny badges you unlock along the way.
+      </p>
+
+      <div id="dashboard-alert" class="alert" style="display:none;"></div>
+
+      <div class="dashboard">
+        <div class="dash-card">
+          <h3>Mood History (Recent)</h3>
+          <ul id="moodList" class="dash-list"></ul>
+          <canvas id="moodChart" style="margin-top:10px;max-height:210px;"></canvas>
+        </div>
+
+        <div class="dash-card">
+          <h3>Tools You've Used</h3>
+          <ul id="toolList" class="dash-list"></ul>
+        </div>
+
+        <div class="dash-card">
+          <h3>Upcoming Bookings</h3>
+          <ul id="bookingList" class="dash-list"></ul>
+        </div>
+
+        <div class="dash-card">
+          <h3>Badges Earned</h3>
+          <ul id="badgeList" class="badge-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>Your data for this demo lives only in your browser’s local storage.</footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

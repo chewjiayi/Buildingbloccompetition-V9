@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calming Tools ( Yournotalone )</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+    .tool-card {
+      padding: 40px 20px;
+      margin: 35px auto;
+      max-width: 900px;
+      border-radius: 28px;
+      background: white;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .tool-title {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .tool-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 25px;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    /* Big Circle (Breathing) */
+    .breath-circle-big {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #ffe0f8);
+      margin: 25px auto;
+      box-shadow: 0 10px 35px rgba(255,150,210,0.3);
+      transition: transform 3s ease;
+    }
+
+    .breath-circle-big.active {
+      animation: breatheBig 8s infinite ease-in-out;
+    }
+
+    @keyframes breatheBig {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.35); }
+      60% { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+
+    #meditation-text {
+      font-size: 18px;
+      width: 80%;
+      margin: 0 auto;
+      line-height: 1.6;
+      color: #5a3b7a;
+      min-height: 70px;
+    }
+
+    #compassion-output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #faf5ff;
+      border-radius: 12px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      color: #5a3b7a;
+      font-size: 17px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background Blobs -->
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="page">
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="ai.html">AI Assistant</a>
+        <a href="human.html">Counsellor</a>
+        <a class="active-link" href="tools.html">Tools</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crisis.html">Crisis</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </header>
+    <!-- BREATHING EXERCISE -->
+    <section class="tool-card">
+      <h2 class="tool-title">Guided Breathing Exercise</h2>
+      <p class="tool-subtitle">
+        Follow the circle’s rhythm. This helps calm anxiety, stress, and fast breathing.
+      </p>
+
+      <div id="breath-circle-big" class="breath-circle-big"></div>
+
+      <div id="breath-instruction" style="font-size:22px;font-weight:600;color:#5a3b7a;margin-top:10px;">
+        Press Start
+      </div>
+      <div id="breath-timer" style="color:var(--muted);margin-top:10px;"></div>
+
+      <div class="btn-row">
+        <button id="breath-start" class="btn primary">Start</button>
+        <button id="breath-stop" class="btn outline">Stop</button>
+      </div>
+    </section>
+
+
+    
+    <!--  MINI MEDITATION -->
+    <section class="tool-card">
+      <h2 class="tool-title">AI-Guided Mini Meditation</h2>
+      <p class="tool-subtitle">
+        A short grounding script read aloud in a calm voice.  
+      </p>
+
+      <div id="meditation-text">Press Start to begin your meditation 🌿</div>
+
+      <div class="btn-row">
+        <button id="med-start" class="btn primary">Start Meditation</button>
+        <button id="med-stop" class="btn outline">Stop</button>
+      </div>
+    </section>
+
+
+    
+    <!--  SELF-COMPASSION GENERATOR -->
+
+    <section class="tool-card">
+      <h2 class="tool-title">Self-Compassion Prompt</h2>
+      <p class="tool-subtitle">
+        Gentle reminders to treat yourself with warmth, patience, and kindness.
+      </p>
+
+      <div id="compassion-output">Click the button for a kind message 💜</div>
+
+      <div class="btn-row">
+        <button id="compassion-next" class="btn primary">New Prompt</button>
+      </div>
+    </section>
+
+
+    <footer style="margin-top:30px;text-align:center;color:var(--muted);">
+      Tools to support your emotional well-being 💜
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+
+
+  <!-- PAGE-SPECIFIC TOOL LOGIC -->
+ 
+  <script>
+    const circle = document.querySelector("#breath-circle-big");
+    const instruction = document.querySelector("#breath-instruction");
+    const timerLabel = document.querySelector("#breath-timer");
+    const startBreath = document.querySelector("#breath-start");
+    const stopBreath = document.querySelector("#breath-stop");
+
+    let breatheTimer = null, breathePhase = null, seconds = 0, phaseIndex = 0;
+
+    const phases = [
+      { text: "Inhale…", duration: 3000 },
+      { text: "Hold…", duration: 1500 },
+      { text: "Exhale…", duration: 3500 }
+    ];
+
+    function runBreathing() {
+      const p = phases[phaseIndex];
+      instruction.textContent = p.text;
+
+      breathePhase = setTimeout(() => {
+        phaseIndex = (phaseIndex + 1) % phases.length;
+        runBreathing();
+      }, p.duration);
+    }
+
+    startBreath.addEventListener("click", () => {
+      if (typeof recordTool === "function") recordTool("Guided Breathing");
+
+      phaseIndex = 0;
+      seconds = 0;
+      timerLabel.textContent = "";
+
+      circle.classList.add("active");
+
+      breatheTimer = setInterval(() => {
+        seconds++;
+        timerLabel.textContent = "Time: " + seconds + "s";
+      }, 1000);
+
+      runBreathing();
+    });
+
+    stopBreath.addEventListener("click", () => {
+      circle.classList.remove("active");
+      instruction.textContent = "Paused";
+
+      clearInterval(breatheTimer);
+      clearTimeout(breathePhase);
+      timerLabel.textContent = "";
+    });
+
+
+    /* -----------MINI MEDITATION------------------*/
+    const medText = document.querySelector("#meditation-text");
+    const medStart = document.querySelector("#med-start");
+    const medStop = document.querySelector("#med-stop");
+
+    const meditationScript = [
+      "Take a slow breath in… and let it out gently.",
+      "Feel your shoulders soften just a little.",
+      "You are safe in this moment.",
+      "Let your thoughts drift by like clouds.",
+      "You deserve rest. You deserve peace."
+    ];
+
+    let medIndex = 0;
+    let medInterval = null;
+
+    medStart.addEventListener("click", () => {
+      if (typeof recordTool === "function") recordTool("AI Meditation");
+
+      medIndex = 0;
+      medText.textContent = meditationScript[0];
+
+      medInterval = setInterval(() => {
+        medIndex++;
+        if (medIndex >= meditationScript.length) medIndex = 0;
+        medText.textContent = meditationScript[medIndex];
+      }, 3500);
+    });
+
+    medStop.addEventListener("click", () => {
+      clearInterval(medInterval);
+      medText.textContent = "Meditation paused 🌿";
+    });
+
+
+    /* -------------------------------
+       SELF-COMPASSION PROMPTS
+    --------------------------------*/
+    const compassionBox = document.querySelector("#compassion-output");
+    const compassionBtn = document.querySelector("#compassion-next");
+
+    const compassionLines = [
+      "It’s okay to slow down.",
+      "You are trying your best — and that is enough.",
+      "Your feelings deserve space and care.",
+      "You don’t have to be perfect to be worthy.",
+      "You are allowed to rest.",
+      "You matter more than you know 💜"
+    ];
+
+    compassionBtn.addEventListener("click", () => {
+      if (typeof recordTool === "function") recordTool("Self-Compassion Prompt");
+      compassionBox.textContent = compassionLines[Math.floor(Math.random() * compassionLines.length)];
+    });
+  </script>
+
+</body>
+</html>

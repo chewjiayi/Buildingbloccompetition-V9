@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Counsellor Booking – Yournotalone</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="page">
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="ai.html">AI Assistant</a>
+        <a class="active-link" href="human.html">Counsellor</a>
+        <a href="tools.html">Tools</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crisis.html">Crisis</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2 class="section-title">Request a Counsellor</h2>
+      <p class="section-subtitle">
+        This demo stores your booking request locally so you can practise planning sessions and see them on your dashboard.
+      </p>
+
+      <form id="booking-form" class="form">
+        <label>Name
+          <input id="bk-name" type="text" required>
+        </label>
+        <label>Email (optional)
+          <input id="bk-email" type="email">
+        </label>
+        <label>Preferred date &amp; time
+          <input id="bk-datetime" type="datetime-local" required>
+        </label>
+        <label>What would you like to talk about?
+          <textarea id="bk-note" placeholder="Optional short summary"></textarea>
+        </label>
+        <button class="btn primary" type="submit">Save request</button>
+        <p id="booking-msg" class="muted" style="margin-top:8px;"></p>
+      </form>
+    </section>
+
+    <footer>Reaching out is a sign of strength, not weakness.</footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

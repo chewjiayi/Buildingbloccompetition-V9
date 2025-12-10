@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sign up – Yournotalone</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="page">
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Yournotalone</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="ai.html">AI Assistant</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </header>
+
+    <div class="auth-wrap card">
+      <h2>Create your space</h2>
+      <p class="muted">Your moods and notes stay on this device only.</p>
+
+      <form id="signup-form" class="form">
+        <label>Name
+          <input type="text" id="signup-name" required>
+        </label>
+        <label>Email
+          <input type="email" id="signup-email" required>
+        </label>
+        <label>Password
+          <input type="password" id="signup-password" required>
+        </label>
+        <button class="btn primary" type="submit" style="margin-top:6px;">Sign up</button>
+        <p id="signup-msg" class="muted" style="margin-top:8px;"></p>
+      </form>
+
+      <p class="muted" style="margin-top:12px;">
+        Already have an account? <a href="login.html">Login</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
