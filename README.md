@@ -1,13 +1,13 @@
 # **Yournotalone – Mental Wellness Web App**
 A gentle AI-powered support system designed to help users feel heard, guided, and less alone.
 
-<b>What this website about?<b><br>
+<b>Overview</b><br>
 Yournotalone is a mental-wellness website built to provide anonymous emotional support through AI chat, AI voice interactions, self-care tools, and crisis-detection features.
 The website aims to help individuals,especially the youths—who may feel unsafe or judged when talking to a real counsellor.
 
 This web wont replace professional help, but gently bridges the users toward real counsellors when they are ready.
 
-🧩 Key features:
+<b>🧩 Key features: </b>
 1) Signup and login
 2) AI Mood chat assistance
 3) AI voice counsellor
