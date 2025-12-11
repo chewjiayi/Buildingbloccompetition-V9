@@ -15,6 +15,7 @@ This web wont replace professional help, but gently bridges the users toward rea
 5) Personal dashboard (shows recent mood changes,mood chart,tools used,upcoming human counsellor booking,crisis detection, badges earned)
 6) Human counselling booking (simple appointment form, will be display in mood board)
 7) crisis detection
+<br><br>
 
 
 <b>🛠️ Tech Stack:</b>
@@ -26,7 +27,7 @@ This web wont replace professional help, but gently bridges the users toward rea
 <br><br>
 
 
-<b>🚀 How to run the application?</b>
+<b>🚀 How to run the application?</b><br>
 Method 1: Open Locally
 1) Download the entire repository
 2) Open the index.html in any modern browser(Chrome recommended)
@@ -39,7 +40,7 @@ Method 2: Open the deploy link
 <b>🔒 Data Privacy</b>
 - All user data (moods, tools, bookings, journal) is stored only in LocalStorage
 - No external server, no database so no storage of user sensitive information
-- Everything stays in the browser <br><br>
+- Everything stays in the browser <br><br><br>
 
 
 <b>📌 Known Limitations</b>
