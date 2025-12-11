@@ -60,7 +60,7 @@ This web app does *not* replace professional help, but gently bridges users towa
 https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit
 
 
-<b>📚 References: </b>
+## 📚 **References:**
 - Web Speech API Documentation (https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API, https://webapis.co/web-speech , https://dvcs.w3.org/hg/speech-api/raw-file/tip/webspeechapi)
 
 - Web speech synthesis (https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)
