@@ -10,16 +10,16 @@ Yournotalone is a mental-wellness website built to provide anonymous emotional s
 
 The website aims to help individuals—especially youths—who may feel unsafe or judged when talking to a real counsellor.
 
-This web app does *not* replace professional help, but gently bridges users toward real counsellors when they are ready.
+This web app will not replace professional help, but gently bridges users toward real counsellors when they are ready.
 
 ## 🧩 **Key Features**
-1. 🔐 Signup and login  
-2. 💬 AI mood chat assistance  
-3. 🎧 AI voice counsellor  
-4. 🧘 Emotional well-being tools  
-5. 📊 Personal dashboard  
-6. 📅 Human counselling booking  
-7. 🚨 Crisis detection  
+1.  Signup and login  
+2.  AI mood chat assistance  
+3.  AI voice counsellor  
+4.  Emotional well-being tools  
+5.  Personal dashboard  
+6.  Human counselling booking  
+7.  Crisis detection  
 
 ## 🛠️ **Tech Stack**
 - HTML + CSS + JavaScript  
