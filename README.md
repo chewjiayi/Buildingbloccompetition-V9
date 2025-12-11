@@ -23,6 +23,7 @@ This web wont replace professional help, but gently bridges the users toward rea
 3) Local storage
 4) Chart.js (to create the graph)
 5) No backend
+<br><br>
 
 
 <b>🚀 How to run the application?</b>
@@ -38,23 +39,23 @@ Method 2: Open the deploy link
 <b>🔒 Data Privacy</b>
 - All user data (moods, tools, bookings, journal) is stored only in LocalStorage
 - No external server, no database so no storage of user sensitive information
-- Everything stays in the browser <br>
+- Everything stays in the browser <br><br>
 
 
 <b>📌 Known Limitations</b>
 - Voice recognition may vary by browser
 - Speech output requires user activation (browser policy)
 - Simple keyword-based AI (not ML-based)
-- Crisis detection is not medically certified<br>
+- Crisis detection is not medically certified<br><br><br>
 
 <b>🌱 Future Development</b>
 - Anonymous community “virtual rooms” for peer support
 - A trained, context-aware counselling AI model
 - Multilingual support 
-- Real counsellor integration<br>
+- Real counsellor integration<br><br><br>
 
 <b>📑Project Presentation slides</b>
-- https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit?utm_content=DAG7EuXwupo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton <br>
+- https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit?utm_content=DAG7EuXwupo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton <br><br><br>
 
 
 <b>📚 References: </b>
