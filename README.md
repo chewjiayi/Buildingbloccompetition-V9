@@ -1,7 +1,7 @@
-# 🌿 **Yournotalone – Mental Wellness Web App**
+#  **Yournotalone – Mental Wellness Web App**
 A gentle AI-powered support system designed to help users feel heard, guided, and less alone.  
 
-## 📖 **Overview**
+##  **Overview**
 Yournotalone is a mental-wellness website built to provide anonymous emotional support through:  
 - AI chat  
 - AI voice interactions  
@@ -12,7 +12,7 @@ The website aims to help individuals—especially youths—who may feel unsafe o
 
 This web app will not replace professional help, but gently bridges users toward real counsellors when they are ready.
 
-## 🧩 **Key Features**
+##  **Key Features**
 1.  Signup and login  
 2.  AI mood chat assistance  
 3.  AI voice counsellor  
@@ -21,14 +21,14 @@ This web app will not replace professional help, but gently bridges users toward
 6.  Human counselling booking  
 7.  Crisis detection  
 
-## 🛠️ **Tech Stack**
+##  **Tech Stack**
 - HTML + CSS + JavaScript  
 - Web Speech API  
 - LocalStorage  
 - Chart.js  
 - No backend  
 
-## 🚀 **How to Run the Application**
+##  **How to Run the Application**
 
 ### Method 1: Open Locally
 1. Download the repository  
@@ -39,28 +39,28 @@ This web app will not replace professional help, but gently bridges users toward
 ### Method 2: Use the Deploy Link
 (Insert GitHub Pages link)
 
-## 🔒 **Data Privacy**
+##  **Data Privacy**
 - All user data stored locally  
 - No server or external database  
 - Nothing leaves the browser  
 
-## ⚠️ **Known Limitations**
+##  **Known Limitations**
 - Voice recognition varies by browser  
 - Audio requires user gesture  
 - Simple keyword AI  
 - Crisis detection not certified  
 
-## 🌱 **Future Development**
+##  **Future Development**
 - Anonymous community rooms  
 - Advanced AI model  
 - Multilingual support  
 - Real counsellor integration  
 
-## 📑 **Project Slides**
+##  **Project Slides**
 https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit
 
 
-## 📚 **References:**
+##  **References:**
 - Web Speech API Documentation (https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API, https://webapis.co/web-speech , https://dvcs.w3.org/hg/speech-api/raw-file/tip/webspeechapi)
 
 - Web speech synthesis (https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)
