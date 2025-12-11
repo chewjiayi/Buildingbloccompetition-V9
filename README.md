@@ -1,5 +1,5 @@
 # **Yournotalone – Mental Wellness Web App**
-A gentle AI-powered support system designed to help users feel heard, guided, and less alone.
+A gentle AI-powered support system designed to help users feel heard, guided, and less alone. <br>
 
 <b>Overview</b><br>
 Yournotalone is a mental-wellness website built to provide anonymous emotional support through AI chat, AI voice interactions, self-care tools, and crisis-detection features.
@@ -17,7 +17,7 @@ This web wont replace professional help, but gently bridges the users toward rea
 7) crisis detection
 
 
-🛠️ Tech Stack:
+<b>🛠️ Tech Stack:</b>
 1) HTML + CSS + Javascript
 2) Web speech API
 3) Local storage
@@ -25,7 +25,7 @@ This web wont replace professional help, but gently bridges the users toward rea
 5) No backend
 
 
-🚀 How to run the application?
+<b>🚀 How to run the application?</b>
 Method 1: Open Locally
 1) Download the entire repository
 2) Open the index.html in any modern browser(Chrome recommended)
@@ -35,29 +35,29 @@ Method 1: Open Locally
 Method 2: Open the deploy link
 
 
-🔒 Data Privacy
+<b>🔒 Data Privacy</b>
 - All user data (moods, tools, bookings, journal) is stored only in LocalStorage
 - No external server, no database so no storage of user sensitive information
-- Everything stays in the browser
+- Everything stays in the browser <br>
 
 
-📌 Known Limitations
+<b>📌 Known Limitations</b>
 - Voice recognition may vary by browser
 - Speech output requires user activation (browser policy)
 - Simple keyword-based AI (not ML-based)
-- Crisis detection is not medically certified
+- Crisis detection is not medically certified<br>
 
-🌱 Future Development
+<b>🌱 Future Development</b>
 - Anonymous community “virtual rooms” for peer support
 - A trained, context-aware counselling AI model
 - Multilingual support 
-- Real counsellor integration
+- Real counsellor integration<br>
 
-📑Project Presentation slides
-- https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit?utm_content=DAG7EuXwupo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+<b>📑Project Presentation slides</b>
+- https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit?utm_content=DAG7EuXwupo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton <br>
 
 
-📚 References
+<b>📚 References: </b>
 - Web Speech API Documentation (https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API, https://webapis.co/web-speech , https://dvcs.w3.org/hg/speech-api/raw-file/tip/webspeechapi)
 
 - Web speech synthesis (https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)
