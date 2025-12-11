@@ -1,10 +1,10 @@
 (function () {
 
-  const qs = s => document.querySelector(s); // This selects a single element
-  const qsa = s => document.querySelectorAll(s);// This selects multiple elements
-  const nowISO = () => new Date().toISOString();// Current time in ISO format
+  const qs = s => document.querySelector(s);
+  const qsa = s => document.querySelectorAll(s);
+  const nowISO = () => new Date().toISOString();
 
-  function load(key, def) {// these two functions load/save data to localStorage, this allows the app to remeber user data between sessions, even if refresh
+  function load(key, def) {
     try { return JSON.parse(localStorage.getItem(key)) ?? def; }
     catch { return def; }
   }
@@ -13,69 +13,58 @@
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  
-  //USER & PER-USER STORAGE KEYS
-  const USERS_KEY = "cmn_users";// all registered users
-  const CURRENT_USER_KEY = "cmn_current_user";// currently logged-in user
+  // USER STORAGE KEYS
+  const USERS_KEY = "cmn_users";
+  const CURRENT_USER_KEY = "cmn_current_user";
 
-  function getCurrentUser() {// get the current user from localStorage
+  function getCurrentUser() {
     return load(CURRENT_USER_KEY, null);
   }
 
-  function setCurrentUser(user) {// set the current user in localStorage
+  function setCurrentUser(user) {
     if (user) save(CURRENT_USER_KEY, user);
     else localStorage.removeItem(CURRENT_USER_KEY);
   }
 
-  function keyFor(base) {// generate a per-user storage key, this allows data to be stored separately for each user, even though all data is in the local storage
+  function keyFor(base) {
     const u = getCurrentUser();
     const id = u ? u.email : "guest";
     return `${base}_${id}`;
   }
 
-  const BASE_MOOD = "cmn_mood";// per-user mood entries
-  const BASE_BOOK = "cmn_bookings";// per-user bookings
-  const BASE_JOUR = "cmn_journal";// per-user journal entries
-  const BASE_TOOL = "cmn_tools";// per-user tool usage
+  const BASE_MOOD = "cmn_mood";
+  const BASE_BOOK = "cmn_bookings";
+  const BASE_JOUR = "cmn_journal";
+  const BASE_TOOL = "cmn_tools";
 
-  const pick = arr => arr[Math.floor(Math.random() * arr.length)];// pick a random item from an array
- 
-  // TEXT TO SPEECH
-  function speak(text, cb) { // speak text aloud using the Web Speech API
-    if (!("speechSynthesis" in window)) return; //if not supported
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
-    const u = new SpeechSynthesisUtterance(text);// create utterance
+  // ---------- TEXT-TO-SPEECH ----------
+  function speak(text, cb) {
+    if (!("speechSynthesis" in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
     u.lang = "en-US";
     u.rate = 0.9;
     u.pitch = 1.05;
     u.volume = 1;
     u.onend = () => cb && cb();
-
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   }
 
-  //MOOD + CRISIS DETECTION
-  const crisisWords = [ // words/phrases indicating crisis
-  "suicide",
-  "kill myself",
-  "end my life",
-  "jump down",
-  "i wanna die",
-  "i want to die",
-  "want to die",
-  "don't want to live",
-  "no point living",
-  "i feel like dying",
-  "i don't want to be here",
-  "self harm",
-  "cut myself"
-];
-
-
-  function detectMood(text) {// basic keyword-based mood detection
+  // ---------- MOOD & CRISIS DETECTION ----------
+  function detectMood(text) {
     if (!text) return "neutral";
-    const t = text.toLowerCase();
+
+    const t = text.toLowerCase().trim().replace(/[^\w\s]/g, "");
+
+    const crisisWords = [
+      "suicide", "kill myself", "end my life", "jump down",
+      "i wanna die", "wanna die", "i want to die", "want to die",
+      "dont want to live", "no point living", "feel like dying",
+      "i dont want to be here", "self harm", "hurt myself",
+      "cut myself", "die"
+    ];
 
     if (crisisWords.some(w => t.includes(w))) return "crisis";
 
@@ -84,184 +73,191 @@
     const angry = ["angry", "annoyed", "frustrated", "pissed", "irritated", "mad"];
     const happy = ["happy", "good", "great", "ok", "fine", "better"];
 
-    if (sad.some(w => t.includes(w))) return "sad";// if the text include the words in the array it will be displaued
+    if (sad.some(w => t.includes(w))) return "sad";
     if (anx.some(w => t.includes(w))) return "anxious";
     if (angry.some(w => t.includes(w))) return "angry";
     if (happy.some(w => t.includes(w))) return "happy";
 
-    return "neutral";// default to neutral if no keywords matched
+    return "neutral";
   }
 
-  
-  const ReplyBlocks = {// predefined reply blocks for different moods
+  // ---------- FIXED REPLY BLOCKS ----------
+  const ReplyBlocks = {
+
     crisis: {
       empathy: [
-        "Thank you for telling me this. Im really glad you chose to say it out loud instead of keeping it all inside.",
-        "It sounds incredibly heavy and painful, and Im really sorry you are going through this alone.",
-        "Hearing how much you're struggling matters to me. You don't deserve to suffer in silence."
+        "Thank you for telling me this. I'm really glad you said it.",
+        "It sounds incredibly heavy and painful.",
+        "Hearing how much you're struggling matters to me."
       ],
       validation: [
-        "Your feelings are real and important, even if other people don't understand them yet.",
-        "Wanting the pain to stop doesnt mean you are weak, it just means things have been too much for too long.",
-        "It makes sense that your mind is exhausted when you have been holding all of this on your own."
+        "Your feelings are real and important.",
+        "Wanting the pain to stop doesn’t mean you are weak.",
+        "It makes sense that you're exhausted from holding all of this alone."
       ],
-      support: [
-        "You deserve support from a safe adult or professional who can walk through this with you.",
-        "If you can, please reach out to a trusted adult, school counsellor, or local helpline.",
-        "If you ever feel in immediate danger, please contact emergency services in your area as soon as possible."
+      suggestion: [
+        "You don’t have to face this alone — reaching out to a safe adult can help.",
+        "If you can, take a small breath and try to stay with me for a moment.",
+        "You deserve immediate support from someone you trust."
       ],
       gentleQuestion: [
-        "Right now, what is one small thing that might make this moment 1% safer for you?",
-        "Is there anyone—friend, family, teacher—you could message and just say ‘I am not okay’?",
-        "Would you like to use the Crisis Support page after this to see some options?"
+        "What could make this moment slightly safer?",
+        "Is there anyone you could message now to say 'I am not okay'?",
+        "Do you want me to guide you to the crisis support page?"
       ]
     },
+
     sad: {
       empathy: [
-        "It really sounds like you are carrying a lot inside your chest today.",
-        "I can hear that your heart feels heavy right now.",
-        "It seems like you have been feeling low for a while, and that is really tiring."
+        "It really sounds like you are carrying a lot inside.",
+        "Your heart feels heavy right now.",
+        "It seems like you've been feeling low, and that's exhausting."
       ],
       validation: [
-        "It is okay to feel sad or drained. Your emotions are not ‘too much’.",
-        "You don’t have to pretend to be okay with me.",
-        "Feeling this way doesn’t mean you’re failing at anything—it just means you’re human."
+        "It's okay to feel sad — it doesn't make you weak.",
+        "You don't need to pretend to be fine with me.",
+        "Feeling this way shows you're human, not failing."
       ],
       suggestion: [
-        "We can slow down together and maybe try a small grounding or breathing exercise.",
-        "If you want, you could also write a few lines in a private journal about what triggered this.",
-        "Even one tiny act of care, like drinking some water or stretching, can be a small first step."
+        "Maybe we can slow down together.",
+        "If you want, you could journal a little.",
+        "Even drinking water or stretching can help."
       ],
       gentleQuestion: [
-        "What do you think contributed most to you feeling this way today?",
-        "If your friend felt like this, what would you want to say to them?",
-        "Where in your body do you feel this sadness the most right now?"
+        "What do you think triggered this?",
+        "If someone you love felt like this, what would you say?",
+        "Where in your body do you feel this sadness?"
       ]
     },
+
     anxious: {
       empathy: [
-        "It sounds like your thoughts are running really fast and it’s hard to slow them down.",
-        "I can tell that your body and mind are feeling on high alert right now.",
-        "Anxiety can feel really loud and overwhelming, especially when you’re alone with it."
+        "It sounds like your thoughts are racing.",
+        "Your body feels on alert right now.",
+        "Anxiety can be overwhelming, especially alone."
       ],
       validation: [
-        "You’re not weird or broken for feeling anxious—this is a very human reaction.",
-        "Your brain is trying to protect you, even if it doesn’t always feel helpful.",
-        "It makes sense that you’re tense after everything your mind is juggling."
+        "You're not broken for feeling this way.",
+        "Your brain is trying to protect you.",
+        "Your tension makes sense after everything you're handling."
       ],
       suggestion: [
-        "We can try a gentle breathing rhythm together to tell your body it’s safe enough in this moment.",
-        "You might try naming three things you can see, two things you can touch, and one thing you can hear.",
-        "Sometimes writing your worries down and sorting them into ‘I can control’ vs ‘I can’t control’ helps."
+        "Let's try a slow breath together.",
+        "Try naming 3 things you see and 2 things you can touch.",
+        "You can separate worries into 'control' vs 'no control'."
       ],
       gentleQuestion: [
-        "If your anxiety could speak, what do you think it would say it’s trying to protect you from?",
-        "Is there a specific situation or thought that triggered this spike in anxiety?",
-        "What usually helps you feel even a tiny bit calmer when this happens?"
+        "What do you think your anxiety is trying to protect you from?",
+        "Was there something specific that triggered this?",
+        "What usually helps you calm down?"
       ]
     },
+
     angry: {
       empathy: [
-        "It really sounds like something has pushed you to your limit.",
-        "I can hear that you’re feeling very frustrated and heated right now.",
-        "Anger often shows up when something important to us feels disrespected."
+        "It feels like something pushed you to your limit.",
+        "You sound really frustrated.",
+        "Anger often protects something important inside."
       ],
       validation: [
-        "It’s okay to feel angry—anger is a signal that something doesn’t feel fair or safe.",
-        "You’re allowed to be upset; it doesn’t make you a bad person.",
-        "Your anger might be trying to protect a part of you that’s been hurt before."
+        "Your anger is valid — it doesn't make you bad.",
+        "You're upset because something mattered to you.",
+        "Under the anger, there may be hurt too."
       ],
       suggestion: [
-        "We can try to slow the moment down so you don’t have to react on impulse.",
-        "Sometimes writing an ‘unsent message’ to the person or situation can help release some of the heat.",
-        "A short grounding technique—like clenching and slowly releasing your fists—might help a bit."
+        "Let's slow this moment down.",
+        "Try writing an unsent message.",
+        "Try clenching & releasing your fists slowly."
       ],
       gentleQuestion: [
-        "If you pause for a moment, what do you think your anger is trying to tell you?",
-        "Underneath this anger, is there also hurt, fear, or disappointment?",
-        "What would ‘standing up for yourself safely’ look like in this situation?"
+        "What is your anger trying to tell you?",
+        "Is there hurt behind the anger?",
+        "What would 'standing up for yourself safely' look like?"
       ]
     },
+
     happy: {
       empathy: [
-        "I’m really glad to hear a brighter moment from you.",
-        "It’s so nice to hear that something is going well for you.",
-        "Those sparks of joy really matter, even if they feel small."
+        "I'm really glad to hear something bright from you.",
+        "It’s nice that something went well for you.",
+        "These small sparks matter."
       ],
       validation: [
-        "You deserve good moments like this.",
-        "Your happiness is just as important to notice as your struggles.",
-        "It’s okay to enjoy this without feeling guilty."
+        "You deserve good moments.",
+        "Your joy is important.",
+        "It's okay to enjoy this without guilt."
       ],
       suggestion: [
-        "If you want, you could store this memory in your mood history so you can look back on it.",
-        "You could write a quick note about what made today feel better than usual.",
-        "Noticing what helped today might make it easier to repeat in the future."
+        "You could save this in your mood history.",
+        "Maybe write what made today better.",
+        "Noticing what helps makes it easier to repeat later."
       ],
       gentleQuestion: [
-        "What do you think contributed to you feeling better today?",
-        "Is there anyone you’d like to share this good moment with?",
-        "What’s one small thing you’d like to remember about this feeling?"
+        "What contributed to you feeling better?",
+        "Anyone you’d like to share this with?",
+        "What part of this feeling would you like to remember?"
       ]
     },
+
     neutral: {
       empathy: [
-        "Thank you for sharing that with me.",
-        "I’m here with you while you figure out how you feel.",
-        "Sometimes it’s hard to name emotions, and that’s okay."
+        "Thank you for sharing that.",
+        "I'm here with you while you figure things out.",
+        "It's okay if emotions feel unclear."
       ],
       validation: [
-        "You don’t always need to know exactly what you’re feeling for it to matter.",
-        "Just showing up and typing is already a form of caring for yourself.",
-        "Even ‘numb’ or ‘not sure’ is still an important signal from your mind."
+        "Your feelings matter even if you can't label them.",
+        "Showing up is already self-care.",
+        "Even 'not sure' is a real emotion."
       ],
       suggestion: [
-        "We can explore what’s on your mind slowly, without any pressure.",
-        "You could try describing your day like a short story—sometimes feelings appear in the details.",
-        "If you like, we can start with a small grounding or reflection question."
+        "We can explore slowly.",
+        "Maybe describe your day like a story.",
+        "We can start with a small reflection question."
       ],
       gentleQuestion: [
-        "If you had to guess, do you feel more tired, stressed, or okay today?",
-        "Is there something specific you’d like to unpack with me?",
-        "What made you decide to open this app right now?"
+        "Do you feel tired, stressed, or okay today?",
+        "Anything specific you'd like to unpack?",
+        "What made you open this app right now?"
       ]
     }
   };
 
-  function buildCounsellingReply(mood, userText, history, channel) {// build a counselling reply based on mood, user text, chat history, and channel (chat or call)
+  // ---------- REPLY BUILDER ----------
+  function buildCounsellingReply(mood, userText, history, channel) {
     const block = ReplyBlocks[mood] || ReplyBlocks.neutral;
-    const parts = [];
-    parts.push(pick(block.empathy));
-    parts.push(pick(block.validation));
-    parts.push(pick(block.suggestion));
+    const parts = [
+      pick(block.empathy),
+      pick(block.validation),
+      pick(block.suggestion)
+    ];
 
-    const lastUserMessages = history
+    const lastUserText = history
       .filter(m => m.who === "you")
       .slice(-3)
       .map(m => m.text.toLowerCase())
       .join(" ");
 
-    if (lastUserMessages && /school|exam|assignment|test|teacher/.test(lastUserMessages)) { // detect school-related issues
-      parts.push("It also sounds like school or studies have been weighing on you quite a bit.");
-    } else if (lastUserMessages && /friend|friends|relationship|boyfriend|girlfriend|family|parent/.test(lastUserMessages)) {// detect relationship issue
-      parts.push("I’m noticing that relationships keep coming up for you, which is totally understandable—they affect us a lot.");
+    if (/school|exam|assignment/.test(lastUserText)) {
+      parts.push("It sounds like school has been adding pressure on you.");
     }
 
-    parts.push(pick(block.gentleQuestion));// add a gentle question
+    if (/friend|family|relationship/.test(lastUserText)) {
+      parts.push("Relationships can affect our emotions deeply, so it makes sense this is affecting you.");
+    }
+
+    parts.push(pick(block.gentleQuestion));
 
     if (mood === "crisis") {
-      parts.push(
-        "If at any point you feel you might act on these thoughts, please contact local emergency services or a trusted adult immediately. Your safety matters more than anything."
-      );
+      parts.push("If you feel unsafe, please reach out to a trusted adult or emergency services.");
     }
 
-    if (channel === "call") {
-      return parts.slice(0, 4).join(" ");
-    } else {
-      return parts.join(" ");
-    }
+    return channel === "call"
+      ? parts.slice(0, 4).join(" ")
+      : parts.join(" ");
   }
 
+  // ---------- SAVE MOOD ENTRY ----------
   function saveMoodEntry(text) {
     const mood = detectMood(text);
     const entry = {
@@ -270,35 +266,31 @@
       crisis: mood === "crisis",
       time: nowISO()
     };
-
     const list = load(keyFor(BASE_MOOD), []);
     list.unshift(entry);
     save(keyFor(BASE_MOOD), list);
     return entry;
   }
 
- 
-  // TOOL TRACKING
-
+  // ---------- TOOL TRACKING ----------
   function recordTool(name) {
     const key = keyFor(BASE_TOOL);
     let tools = load(key, []);
-
-    tools = tools.map(t => (typeof t === "object" && t.name ? t.name : t));
+    tools = tools.map(t => (typeof t === "object" ? t.name : t));
     if (!tools.includes(name)) tools.push(name);
     save(key, tools);
   }
 
-  //login
+  // ---------- LOGIN ----------
   if (qs("#login-form")) {
     qs("#login-form").addEventListener("submit", e => {
       e.preventDefault();
+
       const email = qs("#login-email").value.trim().toLowerCase();
       const password = qs("#login-password").value.trim();
 
       const users = load(USERS_KEY, []);
       const found = users.find(u => u.email === email && u.password === password);
-
       const msg = qs("#login-msg");
 
       if (!found) {
@@ -311,7 +303,7 @@
     });
   }
 
- //Sign up
+  // ---------- SIGNUP ----------
   if (qs("#signup-form")) {
     qs("#signup-form").addEventListener("submit", e => {
       e.preventDefault();
@@ -338,8 +330,11 @@
     });
   }
 
-  //AI Chat Page
+  // ---------- AI CHAT PAGE ----------
   if (qs("#chat-form")) {
+
+    console.log("CHAT BLOCK LOADED!");
+
     const chatArea = qs("#chat-area");
     const input = qs("#chat-input");
     const send = qs("#send-btn");
@@ -358,9 +353,7 @@
     }
 
     function hideTyping() {
-      if (typingEl && typingEl.parentNode) {
-        typingEl.parentNode.removeChild(typingEl);
-      }
+      if (typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
       typingEl = null;
     }
 
@@ -389,15 +382,16 @@
       const entry = saveMoodEntry(text);
       const mood = entry.crisis ? "crisis" : entry.mood;
 
-      let reply = buildCounsellingReply(mood, text, chatHistory, "chat");
+      const reply = buildCounsellingReply(mood, text, chatHistory, "chat");
 
-      // crisis alert
-      if (entry.crisis) {
-        alert(
-          "⚠️ Crisis Detected\n\n" +
-          "Your message sounds very serious.\n" +
-          "Please reach out to a trusted adult, counsellor, or emergency services immediately."
-        );
+      if (entry.crisis === true) {
+        setTimeout(() => {
+          alert(
+            "⚠️ Crisis Detected\n\n" +
+            "Your message sounds very serious.\n" +
+            "Please reach out to a trusted adult, counsellor, or emergency services immediately."
+          );
+        }, 150);
 
         const crisisBanner = document.createElement("div");
         crisisBanner.style.background = "#ffd0d9";
@@ -414,7 +408,6 @@
       }
 
       showTyping();
-
       setTimeout(() => {
         hideTyping();
         addBot(reply);
@@ -435,6 +428,7 @@
       }
     });
 
+    // VOICE INPUT
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
       voice.disabled = true;
@@ -464,15 +458,15 @@
     }
   }
 
- //Call page
+  // ---------- CALL PAGE (VOICE CALL) ----------
   if (qs(".page-call")) {
+
     const timer = qs("#call-timer");
 
     let sec = 0;
     setInterval(() => {
       sec++;
-      timer.textContent =
-        `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
+      timer.textContent = `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
     }, 1000);
 
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -488,7 +482,7 @@
 
       function startMic() {
         if (!busy) {
-          try { recog.start(); } catch (e) { }
+          try { recog.start(); } catch (e) {}
         }
       }
 
@@ -501,17 +495,10 @@
           return startMic();
         }
 
-        const moodEntry = saveMoodEntry(text);
-        const mood = moodEntry.crisis ? "crisis" : moodEntry.mood;
+        const entry = saveMoodEntry(text);
+        const mood = entry.crisis ? "crisis" : entry.mood;
 
-        let reply =
-          pick(ReplyBlocks[mood].empathy) + " " +
-          pick(ReplyBlocks[mood].validation) + " " +
-          pick(ReplyBlocks[mood].suggestion);
-
-        if (moodEntry.crisis) {
-          reply += " Please reach out to a trusted adult or emergency services if you feel unsafe.";
-        }
+        const reply = buildCounsellingReply(mood, text, [], "call");
 
         speak(reply, () => {
           busy = false;
@@ -545,7 +532,7 @@
     }
   }
 
-  //Booking page
+  // ---------- BOOKING PAGE ----------
   if (qs("#booking-form")) {
     qs("#booking-form").addEventListener("submit", e => {
       e.preventDefault();
@@ -562,10 +549,9 @@
     });
   }
 
-  
-
-  // Breathing circle + whispers
+  // ---------- BREATHING TOOL ----------
   if (qs("#start-breath")) {
+
     const circle = qs("#breath-circle");
     const start = qs("#start-breath");
     const stop = qs("#stop-breath");
@@ -594,7 +580,6 @@
     }
 
     start.addEventListener("click", () => {
-      if (!circle) return;
       circle.classList.add("breathing-active");
       breathingActive = true;
       recordTool("Guided Breathing");
@@ -603,16 +588,15 @@
     });
 
     stop.addEventListener("click", () => {
-      if (!circle) return;
       circle.classList.remove("breathing-active");
       breathingActive = false;
       if (whisperTimer) clearTimeout(whisperTimer);
       speechSynthesis.cancel();
     });
   }
-
-  // Self-compassion prompt
+  // ---------- SELF-COMPASSION PROMPTS ----------
   if (qs("#compassion-next")) {
+
     const btn = qs("#compassion-next");
     const output = qs("#compassion-output");
 
@@ -628,27 +612,25 @@
       recordTool("Self-Compassion Prompt");
       const text = pick(prompts);
       if (output) output.textContent = text;
-      speak("Here’s a gentle self compassion prompt for you. " + text);
+      speak("Here’s a gentle self-compassion prompt for you. " + text);
     });
   }
 
-  // Meditation background music
+  // ---------- MEDITATION MUSIC ----------
   if (qs("#med-start")) {
+
     const medStart = qs("#med-start");
     const medStop = qs("#med-stop");
     const medStatus = qs("#med-status");
+
     const medAudio = new Audio("meditation.mp3");
     medAudio.loop = true;
 
     medStart.addEventListener("click", () => {
       recordTool("Guided Meditation");
-      medAudio.play().catch(() => { });
-      if (medStatus) {
-        medStatus.textContent = "Meditation playing… You can close your eyes and just listen.";
-      }
-      speak(
-        "Let’s take this time just for you. Find a comfortable position. You don’t have to fix anything right now. Just notice your breath, gently moving in and out."
-      );
+      medAudio.play().catch(() => {});
+      if (medStatus) medStatus.textContent = "Meditation playing… relax and breathe.";
+      speak("Take a deep breath… relax your shoulders. You are safe.");
     });
 
     if (medStop) {
@@ -660,19 +642,20 @@
     }
   }
 
-  // Worry dump & reframe
+  // ---------- WORRY DUMP ----------
   if (qs("#worry-process")) {
+
     const worryInput = qs("#worry-input");
     const worryOut = qs("#worry-output");
 
     qs("#worry-process").addEventListener("click", () => {
+
       recordTool("Worry Dump & Reframe");
+
       const text = worryInput ? worryInput.value.trim() : "";
       if (!text) {
-        if (worryOut) {
-          worryOut.textContent =
-            "Try typing at least one worry first. It doesn’t have to be perfect or logical.";
-        }
+        if (worryOut) worryOut.textContent =
+          "Try typing at least one worry first. It doesn't have to be perfect.";
         return;
       }
 
@@ -681,13 +664,13 @@
 
       if (mood === "anxious") {
         reframe +=
-          "Anxiety often exaggerates worst-case scenarios. You could ask yourself: ‘What is the most realistic outcome, not just the scariest one?’";
+          "Anxiety often imagines the worst case. Try asking yourself: ‘What is the realistic outcome?’";
       } else if (mood === "sad") {
         reframe +=
-          "Sadness can make everything look darker than it really is. You might try asking: ‘What would I say to a friend who felt this exact way?’";
+          "Sadness can make everything appear darker. Try asking: ‘What would I tell a friend feeling this way?’";
       } else {
         reframe +=
-          "You might try separating this into two columns: ‘Things I can control’ and ‘Things I cannot control’. Focus gently on the first column.";
+          "Try dividing this into two lists: ‘Things I can control’ and ‘Things I cannot control’.";
       }
 
       if (worryOut) worryOut.textContent = reframe;
@@ -695,8 +678,9 @@
     });
   }
 
-  // Journal save
+  // ---------- JOURNAL ----------
   if (qs("#save-journal")) {
+
     const textarea = qs("#journal-text");
     const feedback = qs("#journal-feedback");
 
@@ -706,59 +690,69 @@
 
     qs("#save-journal").addEventListener("click", () => {
       if (!textarea) return;
+
       save(keyFor(BASE_JOUR), textarea.value.trim());
       recordTool("Journal Tool");
-      if (feedback) {
-        feedback.textContent = "Journal saved locally on this device.";
-        setTimeout(() => feedback.textContent = "", 2500);
-      }
+
+      feedback.textContent = "Journal saved.";
+      setTimeout(() => feedback.textContent = "", 2500);
     });
   }
 
-  //Dashboard
+  // ---------- DASHBOARD ----------
   if (qs("#dashboard-root")) {
+
     const moods = load(keyFor(BASE_MOOD), []);
     const rawTools = load(keyFor(BASE_TOOL), []);
     const tools = rawTools.map(t => (typeof t === "object" ? t.name : t));
     const bookings = load(keyFor(BASE_BOOK), []);
+
     const moodList = qs("#moodList");
     const toolList = qs("#toolList");
     const bookingList = qs("#bookingList");
     const badgeList = qs("#badgeList");
     const alertBox = qs("#dashboard-alert");
+
+    // Crisis Warning
     if (moods.some(m => m.crisis)) {
       alertBox.style.display = "block";
       alertBox.textContent =
-        "Some entries suggest emotional distress. If anything feels unsafe, please reach out to a trusted adult or counsellor.";
+      "Some entries suggest emotional distress. If anything feels unsafe, please reach out to a trusted adult or counsellor.";
     }
 
+    // Mood entries
     moodList.innerHTML =
       moods.length === 0
         ? "<li class='muted'>No entries</li>"
         : moods.slice(0, 8).map(m =>
-            `<li>${
-              m.crisis
-                ? "<span class='crisis-text'>CRISIS</span>"
-                : m.mood.toUpperCase()
-            } — ${m.text}<br><span class='muted'>${new Date(m.time).toLocaleString()}</span></li>`
+            `<li>
+              ${m.crisis ? "<span class='crisis-text'>CRISIS</span>" : m.mood.toUpperCase()}
+               — ${m.text}
+              <br><span class='muted'>${new Date(m.time).toLocaleString()}</span>
+            </li>`
           ).join("");
 
+    // Tool usage
     toolList.innerHTML =
       tools.length === 0
         ? "<li class='muted'>No tools used</li>"
         : tools.map(t => `<li>${t}</li>`).join("");
 
+    // Bookings
     bookingList.innerHTML =
       bookings.length === 0
         ? "<li class='muted'>No bookings</li>"
         : bookings
-            .slice()
-            .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
-            .map(b =>
-              `<li><strong>${b.name}</strong> — ${new Date(b.datetime).toLocaleString()}
-               <br><span class='muted'>${b.note || ""}</span></li>`
-            ).join("");
+          .slice()
+          .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
+          .map(b =>
+            `<li>
+              <strong>${b.name}</strong> — ${new Date(b.datetime).toLocaleString()}
+              <br><span class='muted'>${b.note || ""}</span>
+            </li>`
+          ).join("");
 
+    // Badges
     const badges = [];
     if (moods.length >= 1) badges.push("💬 First Check-In");
     if (moods.length >= 5) badges.push("📈 Mood Tracker (5+)");
@@ -770,6 +764,7 @@
         ? "<li class='muted'>No badges</li>"
         : badges.map(b => `<li>${b}</li>`).join("");
 
+    // Mood Chart
     if (qs("#moodChart") && moods.length > 0) {
       new Chart(qs("#moodChart"), {
         type: "line",
@@ -796,7 +791,8 @@
           plugins: { legend: { display: false } },
           scales: {
             y: {
-              min: 0, max: 4,
+              min: 0,
+              max: 4,
               ticks: {
                 callback: v => ["Crisis", "Sad/Angry", "Anxious", "Neutral", "Happy"][v]
               }
@@ -807,10 +803,10 @@
     }
   }
 
-  //Profile page
+  // ---------- PROFILE PAGE ----------
   if (qs("#profile-root")) {
-    const user = getCurrentUser();
 
+    const user = getCurrentUser();
     qs("#profile-name").textContent = user ? user.name : "Guest";
     qs("#profile-email").textContent = user ? user.email : "Not logged in";
 
@@ -826,11 +822,9 @@
       <p><strong>Crisis-flagged:</strong> ${crisis}</p>
     `;
 
-    // optional logout button (if exists)
     const logoutBtn = qs("#logout-btn");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", () => {
-        // clear per-user data
         localStorage.removeItem(CURRENT_USER_KEY);
         localStorage.removeItem(keyFor(BASE_MOOD));
         localStorage.removeItem(keyFor(BASE_BOOK));
@@ -842,4 +836,4 @@
     }
   }
 
-})();
+})(); // END OF APP
