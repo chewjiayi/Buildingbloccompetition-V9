@@ -1,63 +1,63 @@
-# **Yournotalone – Mental Wellness Web App**
-A gentle AI-powered support system designed to help users feel heard, guided, and less alone. <br>
+# 🌿 **Yournotalone – Mental Wellness Web App**
+A gentle AI-powered support system designed to help users feel heard, guided, and less alone.  
 
-# ** Overview **
-Yournotalone is a mental-wellness website built to provide anonymous emotional support through AI chat, AI voice interactions, self-care tools, and crisis-detection features.
-The website aims to help individuals,especially the youths—who may feel unsafe or judged when talking to a real counsellor.
+## 📖 **Overview**
+Yournotalone is a mental-wellness website built to provide anonymous emotional support through:  
+- AI chat  
+- AI voice interactions  
+- Self-care tools  
+- Crisis-detection features  
 
-This web wont replace professional help, but gently bridges the users toward real counsellors when they are ready.
+The website aims to help individuals—especially youths—who may feel unsafe or judged when talking to a real counsellor.
 
-# **🧩 Key features: **
-1) Signup and login
-2) AI Mood chat assistance
-3) AI voice counsellor
-4) Emotional well-being tools ( breathing exercise, Meditation audio playback, self-compassion prompts)
-5) Personal dashboard (shows recent mood changes,mood chart,tools used,upcoming human counsellor booking,crisis detection, badges earned)
-6) Human counselling booking (simple appointment form, will be display in mood board)
-7) crisis detection
-<br><br>
+This web app does *not* replace professional help, but gently bridges users toward real counsellors when they are ready.
 
+## 🧩 **Key Features**
+1. 🔐 Signup and login  
+2. 💬 AI mood chat assistance  
+3. 🎧 AI voice counsellor  
+4. 🧘 Emotional well-being tools  
+5. 📊 Personal dashboard  
+6. 📅 Human counselling booking  
+7. 🚨 Crisis detection  
 
-# ** 🛠️ Tech Stack: **
-1) HTML + CSS + Javascript
-2) Web speech API
-3) Local storage
-4) Chart.js (to create the graph)
-5) No backend
-<br><br>
+## 🛠️ **Tech Stack**
+- HTML + CSS + JavaScript  
+- Web Speech API  
+- LocalStorage  
+- Chart.js  
+- No backend  
 
+## 🚀 **How to Run the Application**
 
-<b>🚀 How to run the application?</b><br>
+### Method 1: Open Locally
+1. Download the repository  
+2. Open index.html  
+3. Allow mic permissions  
+4. Click once to enable audio output  
 
-Method 1: Open Locally
-1) Download the entire repository
-2) Open the index.html in any modern browser(Chrome recommended)
-3) Allow microphone permissions for voice mode
-4) Click once on the page to enable browser audio output (required by browsers)
+### Method 2: Use the Deploy Link
+(Insert GitHub Pages link)
 
-Method 2: Open the deploy link
+## 🔒 **Data Privacy**
+- All user data stored locally  
+- No server or external database  
+- Nothing leaves the browser  
 
+## ⚠️ **Known Limitations**
+- Voice recognition varies by browser  
+- Audio requires user gesture  
+- Simple keyword AI  
+- Crisis detection not certified  
 
-<b>🔒 Data Privacy</b>
-- All user data (moods, tools, bookings, journal) is stored only in LocalStorage
-- No external server, no database so no storage of user sensitive information
-- Everything stays in the browser <br><br><br>
+## 🌱 **Future Development**
+- Anonymous community rooms  
+- Advanced AI model  
+- Multilingual support  
+- Real counsellor integration  
 
-
-<b>📌 Known Limitations</b>
-- Voice recognition may vary by browser
-- Speech output requires user activation (browser policy)
-- Simple keyword-based AI (not ML-based)
-- Crisis detection is not medically certified<br><br><br>
-
-<b>🌱 Future Development</b>
-- Anonymous community “virtual rooms” for peer support
-- A trained, context-aware counselling AI model
-- Multilingual support 
-- Real counsellor integration<br><br><br>
-
-<b>📑Project Presentation slides</b>
-- https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit?utm_content=DAG7EuXwupo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton <br><br><br>
+## 📑 **Project Slides**
+https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit
 
 
 <b>📚 References: </b>
