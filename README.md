@@ -37,7 +37,7 @@ This web app will not replace professional help, but gently bridges users toward
 4. Click once to enable audio output  
 
 ### Method 2: Use the Deploy Link
-[(Insert GitHub Pages link)](https://chewjiayi.github.io/V9-BuildingBloCS-YourNotAlone/)
+https://chewjiayi.github.io/V9-BuildingBloCS-YourNotAlone/
 
 ##  **Data Privacy**
 - All user data stored locally  
