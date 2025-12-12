@@ -75,3 +75,4 @@ https://www.canva.com/design/DAG7EuXwupo/2w-zhqCt9TAFFxZUamGPjw/edit
   https://developer.mozilla.org/en-US/docs/Web/API/setTimeout
 
 - Inspiration from mental health chatbot (https://www.wysa.com/ , https://woebothealth.com/)
+- Uses Ai to ammend some code
