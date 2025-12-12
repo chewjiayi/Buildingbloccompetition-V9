@@ -1,48 +1,48 @@
 (function () {
 
-  const qs = s => document.querySelector(s);
-  const qsa = s => document.querySelectorAll(s);
-  const nowISO = () => new Date().toISOString();
+  const qs = s => document.querySelector(s); //select single element
+  const qsa = s => document.querySelectorAll(s);//select multiple elements
+  const nowISO = () => new Date().toISOString();//current time in ISO format
 
-  function load(key, def) {
+  function load(key, def) {//load from local storage
     try { return JSON.parse(localStorage.getItem(key)) ?? def; }
-    catch { return def; }
+    catch { return def; }//in case of invalid JSON
   }
 
-  function save(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+  function save(key, value) {//save to local storage
+    localStorage.setItem(key, JSON.stringify(value));//store as JSON string
   }
 
   // USER STORAGE KEYS
-  const USERS_KEY = "cmn_users";
-  const CURRENT_USER_KEY = "cmn_current_user";
+  const USERS_KEY = "cmn_users";//all registered users
+  const CURRENT_USER_KEY = "cmn_current_user";//current logged-in user
 
-  function getCurrentUser() {
-    return load(CURRENT_USER_KEY, null);
+  function getCurrentUser() {//get current user from local storage
+    return load(CURRENT_USER_KEY, null);//null if not logged in
   }
 
-  function setCurrentUser(user) {
-    if (user) save(CURRENT_USER_KEY, user);
-    else localStorage.removeItem(CURRENT_USER_KEY);
+  function setCurrentUser(user) {//set current user in local storage
+    if (user) save(CURRENT_USER_KEY, user);//save user object
+    else localStorage.removeItem(CURRENT_USER_KEY);//remove if null
   }
 
-  function keyFor(base) {
-    const u = getCurrentUser();
-    const id = u ? u.email : "guest";
-    return `${base}_${id}`;
+  function keyFor(base) {//user-specific storage key
+    const u = getCurrentUser();//get current user
+    const id = u ? u.email : "guest"; //use email or 'guest'
+    return `${base}_${id}`;//combine base with user id
   }
 
-  const BASE_MOOD = "cmn_mood";
+  const BASE_MOOD = "cmn_mood";//base key for mood entries
   const BASE_BOOK = "cmn_bookings";
   const BASE_JOUR = "cmn_journal";
   const BASE_TOOL = "cmn_tools";
 
-  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];//pick random item from array
 
-  // ---------- TEXT-TO-SPEECH ----------
-  function speak(text, cb) {
-    if (!("speechSynthesis" in window)) return;
-    const u = new SpeechSynthesisUtterance(text);
+
+  function speak(text, cb) {//text-to-speech
+    if (!("speechSynthesis" in window)) return; //not supported
+    const u = new SpeechSynthesisUtterance(text);// create utterance
     u.lang = "en-US";
     u.rate = 0.9;
     u.pitch = 1.05;
@@ -52,13 +52,13 @@
     speechSynthesis.speak(u);
   }
 
-  // ---------- MOOD & CRISIS DETECTION ----------
-  function detectMood(text) {
+  // MOOD DETECTION
+  function detectMood(text) {//simple keyword-based mood detection
     if (!text) return "neutral";
 
-    const t = text.toLowerCase().trim().replace(/[^\w\s]/g, "");
+    const t = text.toLowerCase().trim().replace(/[^\w\s]/g, "");//clean text
 
-    const crisisWords = [
+    const crisisWords = [//keywords indicating crisis
       "suicide", "kill myself", "end my life", "jump down",
       "i wanna die", "wanna die", "i want to die", "want to die",
       "dont want to live", "no point living", "feel like dying",
@@ -66,22 +66,22 @@
       "cut myself", "die"
     ];
 
-    if (crisisWords.some(w => t.includes(w))) return "crisis";
+    if (crisisWords.some(w => t.includes(w))) return "crisis";//check for crisis words
 
     const sad = ["sad", "down", "depressed", "cry", "lonely", "hopeless", "empty", "tired"];
     const anx = ["anx", "panic", "scared", "overwhelmed", "worry", "stressed"];
     const angry = ["angry", "annoyed", "frustrated", "pissed", "irritated", "mad"];
     const happy = ["happy", "good", "great", "ok", "fine", "better"];
 
-    if (sad.some(w => t.includes(w))) return "sad";
-    if (anx.some(w => t.includes(w))) return "anxious";
+    if (sad.some(w => t.includes(w))) return "sad"; //check for sad words
+    if (anx.some(w => t.includes(w))) return "anxious";//check for anxious words
     if (angry.some(w => t.includes(w))) return "angry";
     if (happy.some(w => t.includes(w))) return "happy";
 
     return "neutral";
   }
 
-  // ---------- FIXED REPLY BLOCKS ----------
+  // fIXED REPLY BLOCKS
   const ReplyBlocks = {
 
     crisis: {
@@ -223,7 +223,7 @@
     }
   };
 
-  // ---------- REPLY BUILDER ----------
+  // Reply builder
   function buildCounsellingReply(mood, userText, history, channel) {
     const block = ReplyBlocks[mood] || ReplyBlocks.neutral;
     const parts = [
@@ -532,7 +532,7 @@
     }
   }
 
-  // ---------- BOOKING PAGE ----------
+  //Booking Page
   if (qs("#booking-form")) {
     qs("#booking-form").addEventListener("submit", e => {
       e.preventDefault();
@@ -549,7 +549,7 @@
     });
   }
 
-  // ---------- BREATHING TOOL ----------
+  // Breathing tools
   if (qs("#start-breath")) {
 
     const circle = qs("#breath-circle");
@@ -594,7 +594,7 @@
       speechSynthesis.cancel();
     });
   }
-  // ---------- SELF-COMPASSION PROMPTS ----------
+  // self compassion prompts
   if (qs("#compassion-next")) {
 
     const btn = qs("#compassion-next");
@@ -616,7 +616,7 @@
     });
   }
 
-  // ---------- MEDITATION MUSIC ----------
+  // Meditation music
   if (qs("#med-start")) {
 
     const medStart = qs("#med-start");
@@ -642,64 +642,9 @@
     }
   }
 
-  // ---------- WORRY DUMP ----------
-  if (qs("#worry-process")) {
-
-    const worryInput = qs("#worry-input");
-    const worryOut = qs("#worry-output");
-
-    qs("#worry-process").addEventListener("click", () => {
-
-      recordTool("Worry Dump & Reframe");
-
-      const text = worryInput ? worryInput.value.trim() : "";
-      if (!text) {
-        if (worryOut) worryOut.textContent =
-          "Try typing at least one worry first. It doesn't have to be perfect.";
-        return;
-      }
-
-      const mood = detectMood(text);
-      let reframe = "Thank you for putting that into words. ";
-
-      if (mood === "anxious") {
-        reframe +=
-          "Anxiety often imagines the worst case. Try asking yourself: ‘What is the realistic outcome?’";
-      } else if (mood === "sad") {
-        reframe +=
-          "Sadness can make everything appear darker. Try asking: ‘What would I tell a friend feeling this way?’";
-      } else {
-        reframe +=
-          "Try dividing this into two lists: ‘Things I can control’ and ‘Things I cannot control’.";
-      }
-
-      if (worryOut) worryOut.textContent = reframe;
-      speak(reframe);
-    });
-  }
-
-  // ---------- JOURNAL ----------
-  if (qs("#save-journal")) {
-
-    const textarea = qs("#journal-text");
-    const feedback = qs("#journal-feedback");
-
-    if (textarea) {
-      textarea.value = load(keyFor(BASE_JOUR), "");
-    }
-
-    qs("#save-journal").addEventListener("click", () => {
-      if (!textarea) return;
-
-      save(keyFor(BASE_JOUR), textarea.value.trim());
-      recordTool("Journal Tool");
-
-      feedback.textContent = "Journal saved.";
-      setTimeout(() => feedback.textContent = "", 2500);
-    });
-  }
-
-  // ---------- DASHBOARD ----------
+  
+ 
+  // DASHBOARD 
   if (qs("#dashboard-root")) {
 
     const moods = load(keyFor(BASE_MOOD), []);
@@ -803,7 +748,7 @@
     }
   }
 
-  // ---------- PROFILE PAGE ----------
+  // Profile Page
   if (qs("#profile-root")) {
 
     const user = getCurrentUser();
@@ -836,4 +781,4 @@
     }
   }
 
-})(); // END OF APP
+})(); 
