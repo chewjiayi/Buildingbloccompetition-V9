@@ -257,7 +257,6 @@
       : parts.join(" ");
   }
 
-  // ---------- SAVE MOOD ENTRY ----------
   function saveMoodEntry(text) {
     const mood = detectMood(text);
     const entry = {
@@ -272,7 +271,7 @@
     return entry;
   }
 
-  // ---------- TOOL TRACKING ----------
+ 
   function recordTool(name) {
     const key = keyFor(BASE_TOOL);
     let tools = load(key, []);
@@ -281,7 +280,7 @@
     save(key, tools);
   }
 
-  // ---------- LOGIN ----------
+  
   if (qs("#login-form")) {
     qs("#login-form").addEventListener("submit", e => {
       e.preventDefault();
@@ -303,7 +302,7 @@
     });
   }
 
-  // ---------- SIGNUP ----------
+  
   if (qs("#signup-form")) {
     qs("#signup-form").addEventListener("submit", e => {
       e.preventDefault();
@@ -330,7 +329,7 @@
     });
   }
 
-  // ---------- AI CHAT PAGE ----------
+
   if (qs("#chat-form")) {
 
     console.log("CHAT BLOCK LOADED!");
@@ -458,10 +457,10 @@
     }
   }
 
-  // ---------- CALL PAGE (VOICE CALL) ----------
-  if (qs(".page-call")) {
 
-    const timer = qs("#call-timer");
+  if (qs(".page-call")) {//AI Call Page
+
+    const timer = qs("#call-timer");//call timer display
 
     let sec = 0;
     setInterval(() => {
@@ -751,11 +750,11 @@
   // Profile Page
   if (qs("#profile-root")) {
 
-    const user = getCurrentUser();
-    qs("#profile-name").textContent = user ? user.name : "Guest";
-    qs("#profile-email").textContent = user ? user.email : "Not logged in";
+    const user = getCurrentUser();//get current user
+    qs("#profile-name").textContent = user ? user.name : "Guest";//display name
+    qs("#profile-email").textContent = user ? user.email : "Not logged in";//display email
 
-    const moods = load(keyFor(BASE_MOOD), []);
+    const moods = load(keyFor(BASE_MOOD), []);//  load mood entries
     const tools = load(keyFor(BASE_TOOL), []);
     const bookings = load(keyFor(BASE_BOOK), []);
     const crisis = moods.filter(m => m.crisis).length;
